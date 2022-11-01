@@ -1,0 +1,25 @@
+name: "Solana Anchor Test"
+author: "0xArty based on work by MRGN Labs"
+description: "Run anchor tests"
+branding:
+  icon: anchor
+  color: blue
+inputs:
+  args:
+    description: "anchor test arguments"
+    required: false
+    default: ""
+  workspace_dir:
+    description: "anchor workspace directory"
+    required: false
+    default: "."
+runs:
+  using: "docker"
+  image: "docker://0xartemis/anchor:latest"
+  entrypoint: shell-exec
+  args:
+    - "cd ${{ inputs.workspace_dir }}"
+    - yarn
+    - yarn add ts-mocha
+    - "solana-keygen new --no-bip39-passphrase"
+    - "anchor test ${{ inputs.args }}"
